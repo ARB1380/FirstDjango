@@ -11,7 +11,8 @@ def blog_view(request):
 
 
 def blog_single_view(request, pid):
-    post = get_object_or_404(Post, pk=pid)
+    posts = Post.objects.filter(status=True)
+    post = get_object_or_404(posts, pk=pid)
     context = {'post': post}
     return render(request, 'blog/blog-single.html', context)
 
