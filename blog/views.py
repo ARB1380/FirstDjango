@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from blog.models import Post
 from django.shortcuts import get_object_or_404
-from datetime import datetime
+from django.utils import timezone
 # Create your views here.
 
 
 def blog_view(request):
-    current_time = datetime.now()
+    current_time = timezone.now()
     posts = Post.objects.filter(status=True)
     posts = posts.exclude(published_date__gt=current_time)
     context = {'posts' : posts}
