@@ -27,3 +27,7 @@ def test(request, pid):
     context = {'post': post}
     return render(request, 'test.html', context)
 
+def test2(request):
+    return render(request, 'test.html')
+
+
