@@ -10,7 +10,7 @@
     <h1>Test Page</h1>
     <p>this is a test. {% totalposts as tp %}</p>
     {% for post in tp %}
-    <p> {{post}}</p>
+    <p> {{post.content|snippet:100}}</p>
     {% endfor  %}
 
 </body>
