@@ -8,10 +8,7 @@
 </head>
 <body>
     <h1>Test Page</h1>
-    <p>this is a test. {% totalposts as tp %}</p>
-    {% for post in tp %}
-    <p> {{post.content|snippet:100}}</p>
-    {% endfor  %}
+    <p>{% popular_posts %}</p>
 
 </body>
 </html>
