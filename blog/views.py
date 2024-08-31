@@ -27,6 +27,21 @@ def blog_single_view(request, pid):
     return render(request, 'blog/blog-single.html', context)
 
 
+def blog_search(request):
+    current_time = timezone.now()
+    posts = Post.objects.filter(status=True)
+    if request.method == 'GET':
+        print(request.GET.get('s'))
+
+    posts = posts.exclude(published_date__gt=current_time)
+    if s := request.GET.get('s'):
+        posts = posts.filter(content__contains=s)
+
+    context = {'posts': posts}
+    return render(request, 'blog/blog-home.html', context)
+
+
+
 def test(request, pid):
     post = get_object_or_404(Post, pk=pid)
     context = {'post': post}
