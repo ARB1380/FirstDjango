@@ -3,6 +3,8 @@ from blog.models import Post
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from website.models import Contact
+from django.http import HttpResponse
+from website.forms import NameForm
 from django.utils import timezone
 
 # Create your views here.
@@ -72,18 +74,24 @@ def test(request, pid):
 
 def test2(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
-        contact = Contact()
-        contact.name = name
-        contact.email = email
-        contact.message = message
-        contact.subject = subject
-        contact.save()
+        form = NameForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            contact = Contact()
+            contact.name = name
+            contact.email = email
+            contact.subject = subject
+            contact.message = message
+            contact.save()
+            return HttpResponse('done')
+        else:
+            return HttpResponse('not valid')
 
+    form = NameForm()
 
-    return render(request, 'test.html')
+    return render(request, 'test.html', {'form' : form})
 
 
