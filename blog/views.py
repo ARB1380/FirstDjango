@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from website.models import Contact
 from django.http import HttpResponse
 from website.forms import NameForm
+from website.forms import ContactForm
 from django.utils import timezone
 
 # Create your views here.
@@ -74,23 +75,14 @@ def test(request, pid):
 
 def test2(request):
     if request.method == 'POST':
-        form = NameForm(request.POST)
+        form = ContactForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
-            email = form.cleaned_data['email']
-            subject = form.cleaned_data['subject']
-            message = form.cleaned_data['message']
-            contact = Contact()
-            contact.name = name
-            contact.email = email
-            contact.subject = subject
-            contact.message = message
-            contact.save()
+            form.save()
             return HttpResponse('done')
         else:
             return HttpResponse('not valid')
 
-    form = NameForm()
+    form = ContactForm()
 
     return render(request, 'test.html', {'form' : form})
 
