@@ -34,7 +34,9 @@ def blog_view(request, **kwargs):
 
 
 def blog_single_view(request, pid):
+    current_time = timezone.now()
     posts = Post.objects.filter(status=True)
+    posts = posts.exclude(published_date__gt=current_time)
     post = get_object_or_404(posts, pk=pid)
     post_index = list(posts).index(post)
     previous_post = posts[post_index - 1] if post_index > 0 else None
