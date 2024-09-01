@@ -18,3 +18,10 @@ class Contact(models.Model):
         return '{}'.format(self.name)
 
 
+class NewsLetter(models.Model):
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.email
+
+
