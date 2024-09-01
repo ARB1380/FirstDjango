@@ -36,9 +36,13 @@ def blog_view(request, **kwargs):
 def blog_single_view(request, pid):
     posts = Post.objects.filter(status=True)
     post = get_object_or_404(posts, pk=pid)
+    post_index = list(posts).index(post)
+    previous_post = posts[post_index - 1] if post_index > 0 else None
+    next_post = posts[post_index + 1] if post_index < len(posts) - 1 else None
     post.counted_views += 1
     post.save()
-    context = {'post': post}
+
+    context = {'post': post, 'previous_post': previous_post, 'next_post' : next_post}
     return render(request, 'blog/blog-single.html', context)
 
 
