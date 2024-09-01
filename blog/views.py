@@ -2,6 +2,7 @@ from django.shortcuts import render
 from blog.models import Post
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from website.models import Contact
 from django.utils import timezone
 
 # Create your views here.
@@ -70,6 +71,19 @@ def test(request, pid):
 
 
 def test2(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        contact = Contact()
+        contact.name = name
+        contact.email = email
+        contact.message = message
+        contact.subject = subject
+        contact.save()
+
+
     return render(request, 'test.html')
 
 

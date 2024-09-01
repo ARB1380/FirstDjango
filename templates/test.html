@@ -4,11 +4,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Test Form</title>
 </head>
 <body>
-    <h1>Test Page</h1>
-    <p>{% popular_posts %}</p>
+
+    <form action="{% url 'test' %}" method="post" >
+        {% csrf_token %}
+        <label>name</label>
+        <input name="name" type="text"><br>
+        <label>email</label>
+        <input name="email" type="email"><br>
+        <label>subject</label>
+        <input name="subject" type="text"><br>
+        <label>message</label>
+        <input name="message" type="text">
+        <button type="submit">submit</button>
+
+    </form>
 
 </body>
 </html>
