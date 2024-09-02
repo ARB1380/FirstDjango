@@ -21,12 +21,12 @@
 										<ul>
 											{% for cat in post.category.all %}
 											<li>
-												<a href="#">{{cat}}</a>
+												<a href="{% url 'category' cat_name=cat.name %}">{{cat}}</a>
 											</li>
 											{% endfor %}
 										</ul>
 									</div>
-									<a href="#"><h4 class="title">{{post.title}}</h4></a>
+									<a href="{% url 'single' pid=post.id %}"><h4 class="title">{{post.title}}</h4></a>
 									<p>
 										{{post.content |truncatewords:10}}
 									</p>
