@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'website.apps.WebsiteConfig',
     'taggit',
+    'captcha',
     'blog'
 ]
 
