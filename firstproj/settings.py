@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'robots',
     'debug_toolbar',
     'website.apps.WebsiteConfig',
+    'taggit',
     'blog'
 ]
 
