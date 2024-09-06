@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'website.apps.WebsiteConfig',
     'taggit',
     'captcha',
-    'blog'
+    'blog',
+    'accounts'
 ]
 
 # sites framework
