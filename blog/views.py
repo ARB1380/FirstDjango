@@ -7,10 +7,11 @@ from django.http import HttpResponse
 from website.forms import NameForm
 from website.forms import ContactForm
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-
+@login_required
 def blog_view(request, **kwargs):
     current_time = timezone.now()
     posts = Post.objects.filter(status=True)
