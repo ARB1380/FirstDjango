@@ -16,6 +16,9 @@
 </head>
 <!--Coded with love by Mutiullah Samim-->
 <body>
+
+   {{msg}}
+
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
@@ -28,10 +31,16 @@
 					<form method="post" action="{% url 'login' %}">
 						{% csrf_token %}
 
-<!--						{{form}}-->
-						<p>{{ form.username.label_tag }} {{ form.username}}</p>
-						<p>{{ form.email.label_tag }} {{ form.email}}</p>
-						<p>{{ form.password.label_tag }} {{ form.password}}</p>
+<!--						{{form.as_p}}-->
+						<p>
+							<label>Username Or Email</label>
+							<input type="text" name="username" maxlength="150">
+						</p>
+
+						<p>
+							<label>Password</label>
+							<input type="password" name="password">
+						</p>
 <!--						<div class="input-group mb-3">-->
 <!--							<div class="input-group-append">-->
 <!--								<span class="input-group-text"><i class="fas fa-user"></i></span>-->

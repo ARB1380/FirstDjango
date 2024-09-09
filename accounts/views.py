@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,reverse
 from django.contrib.auth import authenticate, login, logout
-#from django.contrib.auth.forms import AuthenticationForm #UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm #UserCreationForm
 from django.contrib.auth.decorators import login_required
-from accounts.forms import UserCreationForm, AuthenticationForm
+from accounts.forms import UserCreationForm #AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
@@ -11,26 +11,32 @@ from django.urls import reverse_lazy
 
 
 def login_view(request):
+    msg = ''
     if request.user.is_authenticated:
         return redirect('/')
     if request.method == 'POST':
         form = AuthenticationForm(request=request, data=request.POST)
+        # print(form.cleaned_data.get('username'))
+        # print(form.cleaned_data.get('password'))
         print("enter")
+
         if form.is_valid():
             print("enter valid")
             username = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
+            # email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
 
-            user = authenticate(username= username, password = password, email= email)
+            user = authenticate(username= username, password = password)
             if user is not None:
                 login(request, user)
                 return redirect('/')
+        else:
+            msg = 'login unsuccessful!'
 
 
 
     form = AuthenticationForm()
-    context = {'form': form}
+    context = {'form': form, 'msg': msg}
 
     return render(request, 'accounts/login.html', context)
 
@@ -48,7 +54,8 @@ def signup_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login/')
+            print("enter this section")
+            return redirect(reverse('login'))
     form = UserCreationForm()
     context = {'form': form}
 
@@ -61,7 +68,7 @@ def password_reset_view(request):
         again_password = request.POST['password2']
         if new_password == again_password:
             user = User.objects.get(username=request.POST['username'])
-            user.password = new_password
+            user.set_password(new_password)
             user.save()
             return redirect('login/')
 
