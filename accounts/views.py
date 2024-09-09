@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect,reverse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm #UserCreationForm
+#from django.contrib.auth.forms import AuthenticationForm #UserCreationForm
 from django.contrib.auth.decorators import login_required
-from accounts.forms import UserCreationForm #AuthenticationForm
+from accounts.forms import UserCreationForm,CustomAuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
@@ -15,18 +15,17 @@ def login_view(request):
     if request.user.is_authenticated:
         return redirect('/')
     if request.method == 'POST':
-        form = AuthenticationForm(request=request, data=request.POST)
-        # print(form.cleaned_data.get('username'))
-        # print(form.cleaned_data.get('password'))
-        print("enter")
+        form = CustomAuthenticationForm(request=request, data=request.POST)
 
         if form.is_valid():
-            print("enter valid")
-            username = form.cleaned_data.get('username')
-            # email = form.cleaned_data.get('email')
+            username_or_email = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
+            if '@' in username_or_email:
+                print("enter email section")
+                user = authenticate(email=username_or_email, password=password)
+            else:
+                user = authenticate(username= username_or_email, password= password)
 
-            user = authenticate(username= username, password = password)
             if user is not None:
                 login(request, user)
                 return redirect('/')
@@ -34,8 +33,7 @@ def login_view(request):
             msg = 'login unsuccessful!'
 
 
-
-    form = AuthenticationForm()
+    form = CustomAuthenticationForm()
     context = {'form': form, 'msg': msg}
 
     return render(request, 'accounts/login.html', context)

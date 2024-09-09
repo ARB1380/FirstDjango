@@ -18,18 +18,14 @@ class UserCreationForm(UserCreationForm):
         return user
 
 
-class AuthenticationForm(AuthenticationForm):
-    email = forms.EmailField(required=False)
-
-    class Meta:
-        model = User
-        fields = ("username", "email", "password")
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(label='Username Or Email')
 
 
-class ChangePasswordForm(forms.Form):
-    old_password = forms.CharField(widget=forms.PasswordInput())
-    new_password = forms.CharField(widget=forms.PasswordInput())
-    confirm_password = forms.CharField(widget=forms.PasswordInput())
+# class ChangePasswordForm(forms.Form):
+#     old_password = forms.CharField(widget=forms.PasswordInput())
+#     new_password = forms.CharField(widget=forms.PasswordInput())
+#     confirm_password = forms.CharField(widget=forms.PasswordInput())
 
 
 
