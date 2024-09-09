@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from blog.models import Post
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -8,10 +8,12 @@ from website.forms import NameForm
 from website.forms import ContactForm
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+
 
 # Create your views here.
 
-@login_required
+
 def blog_view(request, **kwargs):
     current_time = timezone.now()
     posts = Post.objects.filter(status=True)
@@ -45,14 +47,18 @@ def blog_single_view(request, pid):
     posts = Post.objects.filter(status=True)
     posts = posts.exclude(published_date__gt=current_time)
     post = get_object_or_404(posts, pk=pid)
-    post_index = list(posts).index(post)
-    previous_post = posts[post_index - 1] if post_index > 0 else None
-    next_post = posts[post_index + 1] if post_index < len(posts) - 1 else None
-    post.counted_views += 1
-    post.save()
-    print(post.tags)
-    context = {'post': post, 'previous_post': previous_post, 'next_post' : next_post}
-    return render(request, 'blog/blog-single.html', context)
+    if not post.login_require:
+        post_index = list(posts).index(post)
+        previous_post = posts[post_index - 1] if post_index > 0 else None
+        next_post = posts[post_index + 1] if post_index < len(posts) - 1 else None
+        post.counted_views += 1
+        post.save()
+        print(post.tags)
+        context = {'post': post, 'previous_post': previous_post, 'next_post' : next_post}
+        return render(request, 'blog/blog-single.html', context)
+
+    else:
+        return redirect(reverse('login'))
 
 
 def blog_search(request):
