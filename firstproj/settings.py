@@ -19,13 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i*(zf3xjm_w#+i9)66r5_w)8@a=%sw#2gxyf#5-_crte5eje^^'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -52,8 +46,7 @@ INSTALLED_APPS = [
     'accounts'
 ]
 
-# sites framework
-SITE_ID = 2
+
 
 # summernote configs
 SUMMERNOTE_THEME = 'bs4'  # Show summernote with Bootstrap4
@@ -147,15 +140,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'firstproj.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation
@@ -193,14 +178,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
-
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "statics",
-]
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -212,4 +193,6 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-X_FRAME_OPTIONS = "SAMEORIGIN"
+
+
+CSRF_COOKIE_SECURE = True
